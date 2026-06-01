@@ -1,13 +1,14 @@
 Planet planet;
 Asteroid asteroid;
 Flock flock;
+Explosion explosion;
 void setup() {
   size(1400,800);
-  planet = new Planet(width/2,height/2,80);
-  asteroid = new Asteroid(1,1);
+  planet = new Planet(width/2,height/2,100);
+  asteroid = new Asteroid(300,height/2);
   flock = new Flock();
-   for (int i = 0; i < 40; i++) {
-    flock.addBoid(new Boid(width/2,height/2));
+   for (int i = 0; i < 10; i++) {
+    flock.addUfo(new Ufo(width/2,height/2));
   }
 }
 
@@ -22,6 +23,11 @@ void draw() {
   asteroid.show();
   flock.run();
    planet.show();
+   
+   if (explosion != null) {
+  explosion.update();
+  explosion.show();
+}
 }
 
 void keyPressed() {
@@ -33,5 +39,5 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  flock.addBoid(new Boid(mouseX,mouseY));
+  flock.addUfo(new Ufo(mouseX,mouseY));
 }
