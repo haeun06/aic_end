@@ -31,6 +31,6 @@ class Planet {
     if (k== '-') {
       radius -=10;
     }
-    radius = constrain(radius,40,200); // max an minimum for radius 
+    radius = constrain(radius,70,130); // max an minimum for radius 
   }
 }
