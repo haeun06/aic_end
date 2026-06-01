@@ -10,7 +10,7 @@ class Asteroid {
 
   Asteroid(float x, float y) {
     pos = new PVector(x, y);
-    vel = new PVector(3, 0);
+    vel = new PVector(0, 2.6); // 3,0
     acc = new PVector(0, 0);
 
     radius = 15;
@@ -31,7 +31,7 @@ class Asteroid {
 
     force.normalize();
 
-    float G = 1.2;
+    float G = 1.0; //0.8
     float strength = G * p.mass / (distance * distance);
 
     force.mult(strength);
@@ -59,6 +59,7 @@ class Asteroid {
 
     if (d < p.radius + radius) {
       crashed = true;
+      explosion = new Explosion(pos.x, pos.y);
     }
   }
 
@@ -91,14 +92,15 @@ class Asteroid {
       return;
     }
 
-    fill(160);
+    fill(#EBF016);
     noStroke();
     circle(pos.x, pos.y, radius * 2);
   }
 
   void reset() {
-    pos = new PVector(100, 250);
-    vel = new PVector(3, 0);
+    explosion = null;
+    pos = new PVector(width/4, height/2); //100.250
+    vel = new PVector(0, 2.6);
     acc = new PVector(0, 0);
 
     crashed = false;
