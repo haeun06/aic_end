@@ -2,8 +2,11 @@ Planet planet;
 Asteroid asteroid;
 Flock flock;
 Explosion explosion;
+SpaceBackground spaceBg;
+
 void setup() {
   size(1400,800);
+  spaceBg = new SpaceBackground();
   planet = new Planet(width/2,height/2,100);
   asteroid = new Asteroid(300,height/2);
   flock = new Flock();
@@ -14,6 +17,7 @@ void setup() {
 
 void draw() {
   background(0);
+  spaceBg.show();
   planet.update();
   
   asteroid.applyGravity(planet);
