@@ -1,5 +1,5 @@
 
-class Boid {
+class Ufo {
 
   PVector position;
   PVector velocity;
@@ -7,22 +7,23 @@ class Boid {
   float r;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
+  boolean iscohesing;
 
-    Boid(float x, float y) {
+    Ufo(float x, float y) {
     acceleration = new PVector(0, 0);
 
 
-    // Leaving the code temporarily this way so that this example runs in JS
-   velocity = PVector.random2D();
+   velocity = PVector.random2D(); // random 2d direction 
 
     position = new PVector(x, y);
     r = 4.0;
-    maxspeed = 2;
+    maxspeed = 5;
     maxforce = 0.07;
+    iscohesing = false;
   }
 
- void run(ArrayList<Boid> boids, Asteroid asteroid) {
-  flock(boids, asteroid);
+ void run(ArrayList<Ufo> ufos, Asteroid asteroid) {
+  flock(ufos, asteroid);
 
   PVector planet = new PVector(width/2, height/2);
   PVector avoidForce = avoidPlanet(planet, 120);
@@ -39,14 +40,14 @@ class Boid {
   }
 
   // We accumulate a new acceleration each time based on three rules
-  void flock(ArrayList<Boid> boids, Asteroid asteroid) {
-    PVector sep = separate(boids, asteroid);   // Separation
-    PVector ali = align(boids);      // Alignment
-    PVector coh = cohesion(boids);   // Cohesion
+  void flock(ArrayList<Ufo> ufos, Asteroid asteroid) {
+    PVector sep = separate(ufos, asteroid);   // Separation
+    PVector ali = align(ufos);      // Alignment
+    PVector coh = cohesion(ufos);   // Cohesion
     // Arbitrarily weight these forces
-    sep.mult(2.0);  //sep.mult(2.0);
-    ali.mult(1.4); // ali.mult(1.4);
-    coh.mult(1.0);   //coh.mult(0.8);
+    sep.mult(2.2);  //sep.mult(2.0);
+    ali.mult(1.5); // ali.mult(1.4);
+    coh.mult(0.1);   //coh.mult(1.0);
     // Add the force vectors to acceleration
     applyForce(sep);
     applyForce(ali);
@@ -69,12 +70,7 @@ class Boid {
   PVector seek(PVector target) {
     PVector desired = PVector.sub(target, position);  // A vector pointing from the position to the target
     // Scale to maximum speed
-    desired.normalize();
-    desired.mult(maxspeed);
-
-    // Above two lines of code below could be condensed with new PVector setMag() method
-    // Not using this method until Processing.js catches up
-    // desired.setMag(maxspeed);
+    desired.setMag(maxspeed);
 
     // Steering = Desired minus Velocity
     PVector steer = PVector.sub(desired, velocity);
@@ -102,10 +98,7 @@ class Boid {
   void render() {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading() + radians(90);
-    // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
     
-    fill(180, 180,220,120);
-    stroke(255);
     
 
   pushMatrix();
@@ -120,7 +113,11 @@ class Boid {
   arc(0, -r, r*4, r*2.5, PI, TWO_PI);
 
   // Main UFO body
-  fill(170, 170, 190);
+  if (iscohesing) {
+  fill(0, 255, 255); // cyan when flocking
+} else {
+  fill(170, 170, 190); // normal color
+}
   ellipse(0, 0, r*6, r*2.2);
 
   // Bottom shadow/ring
@@ -136,26 +133,23 @@ class Boid {
   popMatrix();
   }
 
-  // Wraparound
+  // Bounces off of screen edge 
   void borders() {
-  if (position.x < r || position.x > width - r) {
-    velocity.x *= -1;
-  }
-
-  if (position.y < r || position.y > height - r) {
-    velocity.y *= -1;
-  }
+     if (position.x < -r) position.x = width+r;
+    if (position.y < -r) position.y = height+r;
+    if (position.x > width+r) position.x = -r;
+    if (position.y > height+r) position.y = -r;
 
   }
 
   // Separation
   // Method checks for nearby boids and steers away
-  PVector separate (ArrayList<Boid> boids, Asteroid asteroid) {
+  PVector separate (ArrayList<Ufo> ufos, Asteroid asteroid) {
     float desiredseparation = 40.0f; //25 pixels 
     PVector steer = new PVector(0, 0, 0);
     int count = 0;
     // For every boid in the system, check if it's too close
-    for (Boid other : boids) { //check every other ufo
+    for (Ufo other : ufos) { //check every other ufo
       float d = PVector.dist(position, other.position);
       // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
       if ((d > 0) && (d < desiredseparation)) {
@@ -176,7 +170,7 @@ class Boid {
     PVector diff = PVector.sub(position, asteroid.pos);
     diff.normalize();
     diff.div(dAsteroid);
-    diff.mult(5); // asteroid avoidance is stronger
+    diff.mult(10); // asteroid avoidance is stronger
     steer.add(diff);
     count++;
   }
@@ -187,13 +181,10 @@ class Boid {
 
     // As long as the vector is greater than 0
     if (steer.mag() > 0) {
-      // First two lines of code below could be condensed with new PVector setMag() method
-      // Not using this method until Processing.js catches up
-      // steer.setMag(maxspeed);
+     
 
       // Implement Reynolds: Steering = Desired - Velocity
-      steer.normalize();
-      steer.mult(maxspeed);
+      steer.setMag(maxspeed);
       steer.sub(velocity);
       steer.limit(maxforce);
     }
@@ -202,11 +193,11 @@ class Boid {
 
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
-  PVector align (ArrayList<Boid> boids) {
+  PVector align (ArrayList<Ufo> ufos) {
     float neighbordist = 80;
     PVector sum = new PVector(0, 0);
     int count = 0;
-    for (Boid other : boids) {
+    for (Ufo other : ufos) {
       float d = PVector.dist(position, other.position);
       if ((d > 0) && (d < neighbordist)) {
         sum.add(other.velocity);
@@ -219,9 +210,8 @@ class Boid {
       // Not using this method until Processing.js catches up
       // sum.setMag(maxspeed);
 
-      // Implement Reynolds: Steering = Desired - Velocity
-      sum.normalize();
-      sum.mult(maxspeed);
+      //  Steering = Desired - Velocity
+      sum.setMag(maxspeed);
       PVector steer = PVector.sub(sum, velocity);
       steer.limit(maxforce);
       return steer;
@@ -232,12 +222,12 @@ class Boid {
   }
 
   // Cohesion
-  // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
-  PVector cohesion (ArrayList<Boid> boids) {
+  // For the average position of all nearby ufos, calculate steering vector towards that position
+  PVector cohesion (ArrayList<Ufo> ufos) {
     float neighbordist = 80;
     PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
     int count = 0;
-    for (Boid other : boids) {
+    for (Ufo other : ufos) {
       float d = PVector.dist(position, other.position);
       if ((d > 0) && (d < neighbordist)) {
         sum.add(other.position); // Add position
@@ -245,10 +235,12 @@ class Boid {
       }
     }
     if (count > 0) {
+      iscohesing = true; //cohesion is true 
       sum.div(count);
       return seek(sum);  // Steer towards the position
     } 
     else {
+      iscohesing = false; // not following other ufos 
       return new PVector(0, 0);
     }
   }
