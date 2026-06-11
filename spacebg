@@ -1,37 +1,38 @@
-//ill add many comments later
+// space background with gaussian (stars) and perlin noise (purple bg)
 class SpaceBackground {
-  int numStars = 400;
-  float[] starX = new float[numStars];
-  float[] starY = new float[numStars];
-  float[] starAlpha = new float[numStars];
+  int numStars = 400; // 400 stars are spread (Gaussian)
+  float[] starX = new float[numStars]; // position x (array)
+  float[] starY = new float[numStars]; // position y (array)
+  float[] starAlpha = new float[numStars]; // array for stars brightness values
   
   SpaceBackground() {
-    // gaussian (for position)
+    // gaussian (for position) bell curve cluster toward the center
     for (int i = 0; i < numStars; i++) {
-      starX[i] = (float) randomGaussian() * (width / 3) + (width / 2); // make gather
-      starY[i] = (float) randomGaussian() * (height / 3) + (height / 2);
-      starAlpha[i] = random(100, 255); //diff light 
+      starX[i] = (float) randomGaussian() * (width / 3) + (width / 2); //clustters center x
+      starY[i] = (float) randomGaussian() * (height / 3) + (height / 2); // clusters center y
+      starAlpha[i] = random(100, 255); //random brightness
     }
   }
   
   void show() {
     background(5, 5, 20); //dark blue
-    
-    noStroke(); // perlin purple
+    // here i use perlin noise function (but idk if we can use "map" function)
+    noStroke(); // perlin purple nebula cloud
     for (int x = 0; x < width; x += 20) {
       for (int y = 0; y < height; y += 20) {
-        float n = noise(x * 0.003, y * 0.003); 
+        float n = noise(x * 0.003, y * 0.003); // generates smooth, continuous noise values
         
-        float alpha = map(n, 0, 1, 0, 75); //transparent to show nebula
-        fill(110, 30, 190, alpha); //purple
-        rect(x, y, 20, 20);
+        float alpha = map(n, 0, 1, 0, 75); //density to soft alpha transparency (0~1 change to 0~75)
+        fill(110, 30, 190, alpha); //purple gas color controlled by noise alpha
+        rect(x, y, 20, 20); // draw nebula grid segments
       }
     }
     
-    strokeWeight(2); // draw stars in bg
+   
     for (int i = 0; i < numStars; i++) {
-      stroke(255, starAlpha[i]); //white stars
-      point(starX[i], starY[i]);
+      stroke(255, starAlpha[i]); //individual transparency
+       strokeWeight(2); // set star point size
+      point(starX[i], starY[i]); // draws star point
     }
   }
 }
