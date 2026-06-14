@@ -8,6 +8,7 @@ Asteroid asteroid;
 Flock flock;
 Explosion explosion;
 SpaceBackground spaceBg;
+boolean draggingAsteroid = false;
 
 void setup() {
   size(1400,800);
@@ -30,18 +31,29 @@ void draw() {
    
 }
 
+void mousePressed() {
+  if (asteroid.isMouseOver(mouseX, mouseY)) {
+    draggingAsteroid = true;
+  } 
+  else if (!planet.handleClick(mouseX, mouseY)) {
+    flock.addUfo(new Ufo(mouseX, mouseY));
+  }
+}
+
+void mouseDragged() {
+  if (draggingAsteroid) {
+    asteroid.setPosition(mouseX, mouseY);
+  }
+}
+
+void mouseReleased() {
+  draggingAsteroid = false;
+}
+
 void keyPressed() {
   planet.handleKey(key);
   
   if (key == 'r' || key == 'R') {
     asteroid.reset();
-  }
-}
-
-void mousePressed() { //chekcs if user click flag bounding box (to trigger msds impulse force)
-  boolean flagClicked = planet.flag.checkClick(planet.pos, planet.radius, mouseX, mouseY);
-  
-  if (!flagClicked) { //if flag not click -> fallback to spawning a UFO
-    flock.addUfo(new Ufo(mouseX, mouseY));
   }
 }
