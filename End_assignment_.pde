@@ -1,3 +1,5 @@
+// End assignment AIC Jasmin Jansen(s3720527) and Ha Eun Kwack
+
 Planet planet;
 Asteroid asteroid;
 Flock flock;
@@ -17,20 +19,12 @@ void setup() {
 
 void draw() {
   background(0);
-  spaceBg.show(); // render both gaussian (star) & perlin (nebula gas)
-  planet.update(); // for msds physics equation (flagepole rotation)
-  
-  asteroid.applyGravity(planet);
-  asteroid.update();
-  asteroid.checkCrash(planet);
-  asteroid.checkEscape();
-  asteroid.show();
-  flock.run();
-  planet.show();
-   if (explosion != null) {
-  explosion.update();
-  explosion.show();
-}
+  spaceBg.update(); // render both gaussian (star) & perlin (nebula gas)
+  planet.update();// for msds physics equation (flagepole rotation)
+  asteroid.update(planet);
+    flock.run();
+ 
+   
 }
 
 void keyPressed() {
