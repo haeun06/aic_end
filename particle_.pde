@@ -1,5 +1,6 @@
-// Space animation end assignment Jasmin and Ha eun 
-// class particle 
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
 //used for the explosion sparks 
 
 class Particle {
