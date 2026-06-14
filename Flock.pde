@@ -1,20 +1,20 @@
 // The Flock (a list of Boid objects)
 
 class Flock {
-  ArrayList<Boid> boids; // An ArrayList for all the boids
+  ArrayList<Ufo> ufos; // An ArrayList for all the boids
 
   Flock() {
-    boids = new ArrayList<Boid>(); // Initialize the ArrayList
+    ufos = new ArrayList<Ufo>(); // Initialize the ArrayList
   }
 
   void run() {
-    for (Boid b : boids) {
-      b.run(boids, asteroid);  // Passing the entire list of boids to each boid individually
+    for (Ufo u : ufos) {
+      u.run(ufos, asteroid, planet);  // Passing the entire list of boids to each boid individually
     }
   }
 
-  void addBoid(Boid b) {
-    boids.add(b);
+  void addUfo(Ufo u) {
+    ufos.add(u);
   }
 
 }
