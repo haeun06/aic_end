@@ -1,3 +1,7 @@
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
+//Defines the ufo class with flocking behaviors and obstacle avoidance
 
 class Ufo {
 
