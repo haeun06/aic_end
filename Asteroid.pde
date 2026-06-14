@@ -1,3 +1,8 @@
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
+//the asteroid class tracking gravity forces, planet collision, and screen escape
+
 class Asteroid {
   PVector pos;
   PVector vel;
