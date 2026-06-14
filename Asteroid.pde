@@ -123,6 +123,24 @@ class Asteroid {
     crashed = false;
     escaped = false;
   }
+boolean isMouseOver(float mx, float my) {
+  if (crashed || escaped) {
+    return false;
+  }
+
+  float d = dist(mx, my, pos.x, pos.y);
+  return d < radius * 2;
+}
+
+void setPosition(float x, float y) {
+  pos.set(x, y);
+  vel.set(0, 2.6);
+  acc.set(0, 0);
+
+  crashed = false;
+  escaped = false;
+  explosion = null;
+}
 }
   
   
