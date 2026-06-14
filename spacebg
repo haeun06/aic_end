@@ -14,7 +14,7 @@ class SpaceBackground {
     }
   }
   
-  void show() {
+  void update() {
     background(5, 5, 20); //dark blue
     // here i use perlin noise function (but idk if we can use "map" function)
     noStroke(); // perlin purple nebula cloud
