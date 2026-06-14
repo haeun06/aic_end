@@ -2,6 +2,13 @@
 //space animation end assignment for aic
 //Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
 //Main tab that initaizlies the setup and executes the draw
+//Sources
+
+//The flocking system was adapted from Daniel Shiffman
+
+//The particle system and explosion effect were adapted from
+//Daniel Shiffman
+
 
 Planet planet;
 Asteroid asteroid;
