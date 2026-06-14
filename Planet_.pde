@@ -13,7 +13,7 @@ class Planet {
   
   void update() {
     mass = radius * radius * 0.5; // updates mass every frame 
-    flag.update(radius);
+    flag.update();
   }
   
   void show() {
