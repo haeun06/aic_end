@@ -1,6 +1,8 @@
-// Space animation by jasmin Jansen and Ha eun
-// Creates explosion when the asteroid crashes onto the planet 
-// explodes into multiple particle object that spreads out 
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
+//Creates explosion when the asteroid crashes onto the planet 
+//explodes into multiple particle object that spreads out 
 
 class Explosion {
   float hu;
