@@ -39,16 +39,28 @@ class Asteroid {
     acc.add(force);
   }
 
-  void update() {
-    if (crashed || escaped) {
-      return;
-    }
+ void update(Planet p) {
+  applyGravity(p);
 
+  if (!crashed && !escaped) {
     vel.add(acc);
     pos.add(vel);
-
     acc.mult(0);
+
+    checkCrash(p);
+    checkEscape();
   }
+
+  show();
+  checkCrash(planet);
+  checkEscape();
+  applyGravity(planet);
+
+  if (explosion != null) {
+    explosion.update();
+     explosion.show();
+  }
+}
 
   void checkCrash(Planet p) {
     if (crashed || escaped) {
