@@ -1,3 +1,8 @@
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
+//the planet class with mass calculations and visual display
+
 class Planet {
   PVector pos; // position
   float radius;
