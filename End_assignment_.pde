@@ -5,7 +5,6 @@
 
 //Sources
 //The flocking system was adapted from Daniel Shiffman
-//The particle system and explosion effect were adapted from Daniel Shiffman
 //The QUAD_STRIP function (in flag) from gpt
 
 
