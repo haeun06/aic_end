@@ -45,4 +45,7 @@ class Planet {
     }
     radius = constrain(radius,70,130); 
   }
+ boolean handleClick(float mx, float my) {
+  return flag.checkClick(pos, radius, mx, my);
+}
 }
