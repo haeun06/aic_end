@@ -17,20 +17,13 @@ void setup() {
 
 void draw() {
   background(0);
-  spaceBg.show(); // render both gaussian (star) & perlin (nebula gas)
-  planet.update(); // for msds physics equation (flagepole rotation)
-  
-  asteroid.applyGravity(planet);
-  asteroid.update();
-  asteroid.checkCrash(planet);
-  asteroid.checkEscape();
-  asteroid.show();
-  flock.run();
-  planet.show();
-   if (explosion != null) {
-  explosion.update();
-  explosion.show();
-}
+  spaceBg.update(); // render both gaussian (star) & perlin (nebula gas)
+  planet.update();// for msds physics equation (flagepole rotation)
+  asteroid.update(planet);
+  planet.flagTime += 0.05;
+    flock.run();
+ 
+   
 }
 
 void keyPressed() {
@@ -41,10 +34,13 @@ void keyPressed() {
   }
 }
 
-void mousePressed() { //chekcs if user click flag bounding box (to trigger msds impulse force)
-  boolean flagClicked = planet.flag.checkClick(planet.pos, planet.radius, mouseX, mouseY);
+void mousePressed() {
+  float oldForce = planet.force;
+  //chekcs if user click flag bounding box (to trigger msds impulse force)
+  planet.checkFlagClick(mouseX, mouseY);
   
-  if (!flagClicked) { //if flag not click -> fallback to spawning a UFO
+  if (planet.force == oldForce) {
+    //if flag not click -> fallback to spawning a UFO
     flock.addUfo(new Ufo(mouseX, mouseY));
   }
 }
