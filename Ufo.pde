@@ -16,17 +16,15 @@ class Ufo {
    velocity = PVector.random2D(); // random 2d direction 
 
     position = new PVector(x, y);
-    r = 4.0;
+    r = 6.0;
     maxspeed = 5;
     maxforce = 0.07;
     iscohesing = false;
   }
 
- void run(ArrayList<Ufo> ufos, Asteroid asteroid) {
+ void run(ArrayList<Ufo> ufos, Asteroid asteroid, Planet planet) {
   flock(ufos, asteroid);
-
-  PVector planet = new PVector(width/2, height/2);
-  PVector avoidForce = avoidPlanet(planet, 120);
+PVector avoidForce = avoidPlanet(planet.pos, planet.radius);
   applyForce(avoidForce);
 
   update();
