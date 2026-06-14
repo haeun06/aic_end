@@ -1,4 +1,8 @@
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
 // space background with gaussian (stars) and perlin noise (purple bg)
+
 class SpaceBackground {
   int numStars = 400; // 400 stars are spread (Gaussian)
   float[] starX = new float[numStars]; // position x (array)
