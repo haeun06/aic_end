@@ -1,4 +1,7 @@
-// End assignment AIC Jasmin Jansen(s3720527) and Ha Eun Kwack
+//CreaTe Y1
+//space animation end assignment for aic
+//Jasmin Jansen(s3720527) and HaEun Kwack(s3594572)
+//Main tab that initaizlies the setup and executes the draw
 
 Planet planet;
 Asteroid asteroid;
